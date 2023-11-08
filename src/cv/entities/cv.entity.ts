@@ -1,0 +1,49 @@
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+import { Skill } from 'src/skill/entities/skill.entity';
+
+@Entity() 
+export class CV {
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  name: string;
+
+  @Column()
+  firstname: string;
+
+  @Column()
+  age: number;
+
+  @Column()
+  cin: string;
+
+  @Column()
+  job: string;
+
+  @Column()
+  path: string;
+
+  @ManyToOne(
+    () => User,
+    (user: User) => user.cvs,
+    {eager: true}//on peut acceder à cv.user
+    )
+    user: User;
+
+  @ManyToMany(() => Skill)
+  @JoinTable({
+    name: "cv_skills", // nom de la table à générer
+    joinColumn: {
+      name: "cv_id", // nom du champ représentant l'entité actuelle
+      referencedColumnName: "id"
+    },
+    inverseJoinColumn: {
+      name: "skill_id", // nom du champ représentant l'entité en relation avec cet entité
+      referencedColumnName: "id"
+    }
+  })
+  skills: Skill[];
+  
+}
