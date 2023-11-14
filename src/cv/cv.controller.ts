@@ -32,7 +32,7 @@ export class CvController {
   findOne(@Param('id') id: string) {
     return this.cvService.findOne(+id);
   }
-
+//chedi
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.cvService.remove(+id);
