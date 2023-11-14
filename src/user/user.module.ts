@@ -6,7 +6,7 @@ import { User } from './entities/user.entity';
 import { CvModule } from '../cv/cv.module';
 import { forwardRef } from '@nestjs/common';
 
-
+//TypeOrmModule.forFeature([User]):pour acceder au repository de User
 @Module({
   imports: [TypeOrmModule.forFeature([User]),forwardRef(() => CvModule)],
   controllers: [UserController],

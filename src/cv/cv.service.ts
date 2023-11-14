@@ -3,7 +3,7 @@ import { CreateCvDto } from './dto/create-cv.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CV } from './entities/cv.entity';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 
 @Injectable()
 export class CvService {
@@ -16,15 +16,16 @@ export class CvService {
 
   create(createCvDto: CreateCvDto) {
     const cv = this.cvRepository.create(createCvDto);
+    console.log();
     return this.cvRepository.save(cv);
   }
 
   findAll() {
     return this.cvRepository.find();
   }
-//{ where: { id: id } } == { where: { id } }
-  findOne(id: number) {
-    return this.cvRepository.findOne({ where: { id:id } });
+//{ where: { id: id1 } } == { where: { id } }
+  findOne(id1: number) {
+    return this.cvRepository.findOne({ where: { id:id1 } });
   }
 
   remove(id: number) {
@@ -44,5 +45,8 @@ export class CvService {
     const cv = await this.cvRepository.findOne({ where: { id: cvId } });
     cv.user=null;
     return this.cvRepository.save(cv);
+  }
+  show() {
+    return process.env.SECRET ;
   }
 }
