@@ -9,11 +9,12 @@ import { UserService } from '../user/user.service';
 import { User } from '../user/entities/user.entity';
 import { SecurityModule } from '../Security/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { Cv_v2 } from './cv2.controller';
 
 
 @Module({
   imports: [TypeOrmModule.forFeature([CV]),
-  TypeOrmModule.forFeature([User]),
+  TypeOrmModule.forFeature([User]),//pour injecter le repository de user
   UserModule,SkillModule,SecurityModule,
   JwtModule.register  //JwtModule.register pour fixer les propriétes du token
   ({
@@ -25,7 +26,7 @@ import { JwtModule } from '@nestjs/jwt';
 
    },
  }),],
-  controllers: [CvController],
+  controllers: [CvController,Cv_v2],
   providers: [CvService,UserService],
 
 })

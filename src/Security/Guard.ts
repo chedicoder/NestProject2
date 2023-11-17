@@ -24,7 +24,6 @@ export class AdminGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
     const userRoles = request.headers?.role?.split(',')?.map(role => role.trim().toLowerCase()); // Convert to lowercase
-    console.log(userRoles);
     return this.validateRoles(roles.map(role => role.toLowerCase()), userRoles);
   }
 

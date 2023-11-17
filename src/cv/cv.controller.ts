@@ -1,12 +1,17 @@
-import { Controller, Get, Post, Body, Param, Delete,UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete,UseGuards,Version } from '@nestjs/common';
 import { CvService } from './cv.service';
 import { CreateCvDto } from './dto/create-cv.dto';
 import { Roles } from '../Security/roles.decorator';
-import { AdminGuard } from 'src/Security/Guard';
+import { AdminGuard } from '../Security/Guard';
 import { RoleEnum } from '../user/entities/user.enum';
 
 
-@Controller('cv')
+@Controller
+  ({ 
+    path: 'cv',
+    //version: '1',// http://localhost:3000/v1/cv/ pour acceder a ce controller
+    })
+
 //@UseGuards(AdminGuard) pour utiliser le guard dans tous les méthodes de controller
 export class CvController {
   constructor(private readonly cvService: CvService) {}
@@ -28,10 +33,23 @@ export class CvController {
     return this.cvService.findAll();
   }
 
+
+// route version 1 de meme path GET (:id)
+//on l'accede par GET http://localhost:3000/v1/cv/1
   @Get(':id')
+  @Version('1')
   findOne(@Param('id') id: string) {
     return this.cvService.findOne(+id);
   }
+//route version 2 de meme path GET (:id)
+//on l'accede par GET http://localhost:3000/v2/cv/1
+  @Get(':id')
+  @Version('2')
+  getTodos(@Param('id') id: string) {
+    return 'v2';
+  }
+
+
 
   @Delete(':id')
   remove(@Param('id') id: string) {

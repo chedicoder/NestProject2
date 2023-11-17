@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, VersionColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, VersionColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from 'typeorm';
 import { CV } from '../../cv/entities/cv.entity';
 import { RoleEnum } from './user.enum';
 
@@ -8,7 +8,14 @@ export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({unique:true,
+          nullable:false,
+          length:15,
+          update:true,
+          name:'username',
+          select: true // Cette colonne sera incluse par défaut dans les résultats des requêtes
+          //false cette colonne ne va pas etre affiche dans les find obtenues par les requetes
+        })
   username: string;
 
   @Column()
@@ -16,6 +23,17 @@ export class User {
 
   @Column()
   password: string;
+
+  @CreateDateColumn()
+  createdAt: Date;
+  
+  @UpdateDateColumn()
+   updatedAt: Date;
+
+ @DeleteDateColumn()
+  deletedAt: Date;  
+
+
 // Si on fait un update pour un objet de cette entite elle sera incremente +1
   @VersionColumn()
   version: number;

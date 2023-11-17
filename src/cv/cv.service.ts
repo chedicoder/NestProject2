@@ -47,6 +47,6 @@ export class CvService {
     return this.cvRepository.save(cv);
   }
   show() {
-    return process.env.SECRET ;
+    return process.env.Port ;
   }
 }
