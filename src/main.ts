@@ -4,6 +4,10 @@ import { CvService } from './cv/cv.service';
 import { ConfigService } from '@nestjs/config';
 import configuration from './config/configuration';
 import { VersioningType } from '@nestjs/common';
+import { rejects } from 'assert';
+import { error } from 'console';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 async function bootstrap() {
   
@@ -37,15 +41,96 @@ async function bootstrap() {
  /* console.log("ahla chedi");
   const cvService = app.get(CvService);
   const c=await cvService.findAll();
+  //let pour declarer une variable
+  //const pour declarer une constante inchangeable
   let t :any[];//t est un tableau de type any
   t=await cvService.findAll();
   console.log(c);
   const configService=app.get(ConfigService);
-  console.log(configService.get('database.name'));*/
-  
-  //let pour declarer une variable
-  //const pour declarer une constante inchangeable
- //export :pour pouvoir importer cette valeur ou class dans un autre fichier
+  console.log(configService.get('database.name'));
+  //export :pour pouvoir importer cette valeur ou class dans un autre fichier*/
+ 
+ 
+  const add = (a: number, b: number): number => {
+  const resultA = a * 10;
+  const resultB = b * 10;
+  return resultA + resultB;
+};
+
+
+//=> est utilisée pour définir la fonction lors de l'appel
+//Dans une fonction asynchrone on utilise resolve si la valeur de retour est correcte
+//et reject si la valeur de retour est fausse
+
+/*
+
+
+// Pour const A = await B;
+Pour const C = await D;
+... des lignes ne contanant pas await
+await E;
+... des lignes ne contanant pas await
+const myPromise = new Promise((resolve, reject) => {
+        B
+        .then((A) => {
+            return D;
+        })
+        .then((C) => {
+          ... des lignes ne contanant pas await
+            return E;
+        })
+        .then(() => {
+            // Dans le dernier bloc then
+            //...
+            //les autres lignes ne contenant pas await
+            if (A == null) reject('Not existing');
+            resolve(user);//c'est la dérnière valeur stockée dans le promesse grace à resolve
+        })
+        .catch((error) => reject(error)); // pour le bloc then précédent
+});
+//pour retourner user au fonction:
+//myPromise contient la dernière valeur resolve du promesse
+return myPromise;
+
+
+
+//Pour utiliser user stocké dans la promesse:
+myPromise
+    .then((user) => {
+      //utiliser user
+return user ;
+    })
+    .catch((error) => {
+        // Gérer les erreurs ici
+        console.error('Erreur:', error);
+    });
+
+*/
+/*
+//L'observable stocke plusieurs valeurs grace à .next
+const myobservable: Observable<number> = new Observable(observer => {
+  let b:number;
+  b=1;
+  observer.next(b);
+  b = 5; 
+  observer.next(b);//on stocke les deux valeurs de b 1 et 5
+  observer.complete();//l'observable ne peut plus stocker des valeurs (différent au promesse)
+});
+const subscription = myobservable
+.pipe(
+  filter((value: number) => value > 0), // Filtrer les valeurs supérieures à 0
+  map(value => value * 2)     // Mapper chaque valeur en la multipliant par 2
+  //tab.map(value => value * 2) est appliqué sur les données pour changer leurs valeurs
+)  
+ .subscribe({
+  next: value => console.log('Next:', value),
+  error: error => console.error('Error:', error),
+  complete: () => console.log('Complete')
+});
+subscription.unsubscribe();// libérer les ressources de next
+*/
   await app.listen(3000);
 }
 bootstrap();
+
+

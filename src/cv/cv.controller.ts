@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Param, Delete,UseGuards,Version } from '@nestjs/common';
+import { Controller,Query, Get, Post, Body, Param, Delete,UseGuards,Version, Patch } from '@nestjs/common';
 import { CvService } from './cv.service';
 import { CreateCvDto } from './dto/create-cv.dto';
 import { Roles } from '../Security/roles.decorator';
 import { AdminGuard } from '../Security/Guard';
 import { RoleEnum } from '../user/entities/user.enum';
+import { CV } from './entities/cv.entity';
+import { UpdateCvDto } from './dto/update-cv.dto';
 
 
 @Controller
@@ -49,7 +51,13 @@ export class CvController {
     return 'v2';
   }
 
+ 
 
+
+@Patch()
+async updateCv( @Body() cv: UpdateCvDto): Promise<CV | null> {
+  return this.cvService.updateCv( cv);
+}
 
   @Delete(':id')
   remove(@Param('id') id: string) {
@@ -73,5 +81,25 @@ export class CvController {
   affiche(){
   return this.cvService.show();
 }
+@Get('/affiche2/:cvId')//http://localhost:3000/cv/affiche2?param=chedi
+//query contient la valeur passée au param dans le uri  
+//on passe les parametres avant le query ?
+//http://localhost:3000/cv/affiche2/1?param=chedi45
+//http://localhost:3000/cv/affiche2/1?param1=chedi45&param2=chedi
+affiche2(@Param('cvId') cvId: number,@Query('param1') query1: string,@Query('param2') query2: string) {
+  console.log(cvId);
+  this.cvService.show2(query2);
+  return this.cvService.show2(query1);
+}
+
+@Get('/all')
+findAll2() {
+  return this.cvService.getCVs();
+}
+@Get('/all2/:id')
+findAll3(@Param('id')id:number) {
+  return this.cvService.getCVs2(id);
+}
+
 
 }

@@ -29,7 +29,7 @@ export class CV {
   @ManyToOne(
     () => User,
     (user: User) => user.cvs,
-    {eager: true}//on peut acceder à cv.user
+    
     )
     user: User;
 
