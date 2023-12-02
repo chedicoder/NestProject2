@@ -57,11 +57,38 @@ async function bootstrap() {
   return resultA + resultB;
 };
 
+/*function get():Promise<number>{
+const myPromise = new Promise<number>((resolve, reject) => {
+  let a = 5;
+  a=a+1;
 
+  Promise.resolve(a)
+    .then((a) => {
+      const b = a * 10;
+      return b;
+    })
+    .then((m) => {
+      if (m < 5) {
+        reject(new Error("C'est une erreur"));
+      } else {
+       // console.log(m);
+        resolve(m);
+      }
+    });
+});
+myPromise.then((b)=>{
+  //console.log(b);
+}); 
+return myPromise;
+}
+get()
+  .then((result) => {
+    console.log(result);
+  })
 //=> est utilisée pour définir la fonction lors de l'appel
 //Dans une fonction asynchrone on utilise resolve si la valeur de retour est correcte
 //et reject si la valeur de retour est fausse
-
+*/
 /*
 
 
@@ -72,6 +99,7 @@ await E;
 ... des lignes ne contanant pas await
 const myPromise = new Promise((resolve, reject) => {
         B
+        Promise.resolve(A)
         .then((A) => {
             return D;
         })
@@ -83,7 +111,7 @@ const myPromise = new Promise((resolve, reject) => {
             // Dans le dernier bloc then
             //...
             //les autres lignes ne contenant pas await
-            if (A == null) reject('Not existing');
+            if (A == null) rejects(new error('Not existing'));
             resolve(user);//c'est la dérnière valeur stockée dans le promesse grace à resolve
         })
         .catch((error) => reject(error)); // pour le bloc then précédent
