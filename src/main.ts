@@ -21,7 +21,7 @@ async function bootstrap() {
 
      app.enableVersioning({//inclure la version dans le uri 
       type: VersioningType.URI
-       });
+       });   
 
 
        /*app.enableVersioning({ //Un header personnalisé permettra de spécifier la version
@@ -50,14 +50,15 @@ async function bootstrap() {
   console.log(configService.get('database.name'));
   //export :pour pouvoir importer cette valeur ou class dans un autre fichier*/
  
- 
-  const add = (a: number, b: number): number => {
-  const resultA = a * 10;
-  const resultB = b * 10;
-  return resultA + resultB;
-};
-
-/*function get():Promise<number>{
+//Créer une fonction localement
+//()=>est utilisé si on doit fournir une fonction sans avoir le créer avant 
+/*
+switchMap prend une fonction
+switchMap(() => {
+  return this.http.get<any>(apiUrl);
+})*/
+/*
+function get():Promise<number>{
 const myPromise = new Promise<number>((resolve, reject) => {
   let a = 5;
   a=a+1;
@@ -70,27 +71,44 @@ const myPromise = new Promise<number>((resolve, reject) => {
     .then((m) => {
       if (m < 5) {
         reject(new Error("C'est une erreur"));
-      } else {
+      }
+       else {
        // console.log(m);
         resolve(m);
+        
       }
     });
-});
-myPromise.then((b)=>{
+   });
+   myPromise.then((b)=>{
   //console.log(b);
-}); 
-return myPromise;
+ }); 
+  return myPromise;//myPromise est une promesse contenat la derniere valeur par resolve
+ }
+ function affiche() {
+  let a: any;
+
+  get()
+    .then((result) => {
+      console.log(result);
+      a = result;
+      console.log("c\'est " + (a ));
+    })
+    .catch((error) => {
+      console.error(error.message);
+      throw error; 
+    });
 }
-get()
-  .then((result) => {
-    console.log(result);
-  })
-//=> est utilisée pour définir la fonction lors de l'appel
-//Dans une fonction asynchrone on utilise resolve si la valeur de retour est correcte
-//et reject si la valeur de retour est fausse
+
+affiche();
 */
+
+
+
 /*
 
+La promesse gére les opérations asynchrones et le succés ou l'échec d'une opération
+avec resolve et reject,la promesse stocke une seule valeur à la fin avec .resolve(value)
+Dans une fonction asynchrone on utilise resolve en cas de succés et reject en cas d'erreur
 
 // Pour const A = await B;
 Pour const C = await D;
@@ -116,22 +134,30 @@ const myPromise = new Promise((resolve, reject) => {
         })
         .catch((error) => reject(error)); // pour le bloc then précédent
 });
-//pour retourner user au fonction:
-//myPromise contient la dernière valeur resolve du promesse
+//myPromise contient la dernière valeur resolue du promesse
 return myPromise;
 
 
 
-//Pour utiliser user stocké dans la promesse:
+//Pour utiliser la valeur stocké dans la promesse dans un autre emplacement
 myPromise
-    .then((user) => {
-      //utiliser user
-return user ;
+    .then((result) => {
+      //utiliser la valeur resolue par le promesse
+
+      
     })
     .catch((error) => {
         // Gérer les erreurs ici
         console.error('Erreur:', error);
     });
+
+*/
+/*
+Les observables sont utilisés car:
+les crud et leurs reponses doivent etre dans le services 
+les modifications apportés comme ajout delete update de la base de données ne sont pas 
+propagés dans les autres components qui ont acces au meme données en meme temps
+
 
 */
 /*
@@ -148,7 +174,7 @@ const subscription = myobservable
 .pipe(
   filter((value: number) => value > 0), // Filtrer les valeurs supérieures à 0
   map(value => value * 2)     // Mapper chaque valeur en la multipliant par 2
-  //tab.map(value => value * 2) est appliqué sur les données pour changer leurs valeurs
+  //tab.map(value => value * 2) .map est appliqué sur les données pour changer leurs valeurs
 )  
  .subscribe({
   next: value => console.log('Next:', value),

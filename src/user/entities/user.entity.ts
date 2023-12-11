@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, VersionColumn, Creat
 import { CV } from '../../cv/entities/cv.entity';
 import { RoleEnum } from './user.enum';
 
-
+//nest g resource user
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
